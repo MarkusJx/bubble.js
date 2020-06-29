@@ -27,7 +27,7 @@ To use this library via a CDN, add this to your HTML:
 
 Create the bubble element and show it next to a HTML element:
 ```js
-const bubble = new Bubble(document.getElementById("bubble"));
+const bubble = new markusjx.Bubble(document.getElementById("bubble"));
 
 // Show it
 bubble.show(document.getElementById("some-elements-id"));

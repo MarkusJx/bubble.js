@@ -1,0 +1,41 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble.js test</title>
+
+    <link rel="stylesheet" href="bubble.min.css">
+    <script src="bubble.min.js"></script>
+
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+    <div class="bubble" id="bubble">
+        <h1 class="bubble-heading">Heading</h1>
+        <p class="bubble-text">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
+        <div class="bubble-actions">
+            <button class="mdc-button bubble-button">  <span class="mdc-button__ripple"></span> Ok</button>
+        </div>
+
+        <div class="bubble-pointer"></div>
+    </div>
+
+    <button class="mdc-button" id="show-bubble-button" style="float: right;">  <span class="mdc-button__ripple"></span> Show Bubble</button>
+
+    <script>
+        const button = document.getElementById("show-bubble-button");
+        new mdc.ripple.MDCRipple(button);
+
+        const bubble = new markusjx.Bubble(document.getElementById("bubble"));
+
+        button.addEventListener('click', () => {
+            bubble.show(button);
+        });
+    </script>
+</body>
+
+</html>
