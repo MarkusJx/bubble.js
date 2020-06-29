@@ -1,6 +1,6 @@
 .bubble {
     min-width: 200px;
-    max-width: 90%;
+    max-width: 600px;
     border-radius: 10px;
     background-color: var(--bubble-color, #065FD4);
     position: absolute;
@@ -8,6 +8,7 @@
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);
     transition: opacity 0.2s ease-in-out;
     opacity: 0;
+    margin: 0 15px;
 }
 
 .bubble-heading {

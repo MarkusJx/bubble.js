@@ -208,61 +208,36 @@ const markusjx = {
                 return (vw - (elem_left + element.offsetWidth)) > root.offsetWidth;
             }
 
+            if (Number(window.getComputedStyle(root).maxWidth.replace("px", "")) < vw) {
+                root.style.width = root.style.maxWidth;
+                console.log("bc");
+            } else if (Number(window.getComputedStyle(root).minWidth.replace("px", "")) < vw) {
+                console.log("ab");
+                root.style.width = "100%";
+            } else {
+                root.style.opacity = "0";
+                console.error("Cannot display bubble: Not enough space");
+                return;
+            }
+
             this.pointerElement.className = "bubble-pointer";
             if (canPlaceAbove()) {
                 if (markusjx.debug) console.debug("Placing above");
 
-                if (Number(root.style.maxWidth.replace("px", "")) > vw) {
-                    root.style.width = root.style.maxWidth;
-                } else {
-                    root.style.width = "100%";
-                }
-
                 root.style.top = elem_top - root.offsetHeight - 20 + "px";
-
-                if ((element.offsetWidth - root.offsetWidth) / 2 + elem_left + offsetLeft < 0) {
-                    // Displace the element if it would be moved out of bounds
-                    root.style.left = elem_left + offsetLeft + "px";
-                    if (offsetLeft === 0) offsetLeft = (element.offsetWidth - root.offsetWidth) / 2;
-                } else if ((element.offsetWidth - root.offsetWidth) / 2 + elem_left + offsetLeft + root.offsetWidth > vw) {
-                    // Displace the element if it would be moved out of bounds
-                    offsetLeft -= 15; // Move 15 px to the left
-                    let offset = vw - (elem_left + root.offsetWidth);
-                    root.style.left = elem_left + offsetLeft + offset + "px";
-                    offsetLeft -= offset;
-                } else {
-                    root.style.left = elem_left - offsetLeft + "px";
-                }
+                root.style.left = (elem_left + offsetLeft) - Math.max((root.offsetWidth + elem_left + offsetLeft + 15) - vw, 0) + "px";
 
                 this.pointerElement.classList.add("bottom");
                 this.pointerElement.style.top = root.offsetHeight + "px";
-                this.pointerElement.style.left = Math.max(elem_left - getOffsetLeft(root), 0) + element.offsetWidth / 2 - this.pointerElement.offsetWidth / 2 - offsetLeft + "px";
+                this.pointerElement.style.left = Math.abs(elem_left - getOffsetLeft(root)) + (element.offsetWidth / 2) - (this.pointerElement.offsetWidth / 2) - offsetLeft + "px";
             } else if (canPlaceBelow()) {
                 if (markusjx.debug) console.debug("Placing below");
 
-                if (Number(root.style.maxWidth.replace("px", "")) > vw) {
-                    root.style.width = root.style.maxWidth;
-                } else {
-                    root.style.width = "100%";
-                }
-
                 root.style.top = elem_top + element.offsetHeight + 20 + "px";
-
-                if ((element.offsetWidth - root.offsetWidth) / 2 + elem_left + offsetLeft < 0) {
-                    // Displace the element if it would be moved out of bounds
-                    root.style.left = elem_left + offsetLeft + "px";
-                    if (offsetLeft === 0) offsetLeft = (element.offsetWidth - root.offsetWidth) / 2;
-                } else if ((element.offsetWidth - root.offsetWidth) / 2 + elem_left + offsetLeft + root.offsetWidth > vw) {
-                    // Displace the element if it would be moved out of bounds
-                    offsetLeft -= 15; // Move 15 px to the left
-                    let offset = vw - (elem_left + root.offsetWidth);
-                    root.style.left = (elem_left + offsetLeft + offset) + "px";
-                } else {
-                    root.style.left = (element.offsetWidth - root.offsetWidth) / 2 + elem_left + offsetLeft + "px";
-                }
+                root.style.left = (elem_left + offsetLeft) - Math.max((root.offsetWidth + elem_left + offsetLeft + 15) - vw, 0) + "px";
 
                 this.pointerElement.style.top = "0";
-                this.pointerElement.style.left = Math.max(elem_left - getOffsetLeft(root), 0) + element.offsetWidth / 2 - this.pointerElement.offsetWidth / 2 - offsetLeft + "px";
+                this.pointerElement.style.left = Math.abs(elem_left - getOffsetLeft(root)) + element.offsetWidth / 2 - this.pointerElement.offsetWidth / 2 - offsetLeft + "px";
             } else if (canPlaceLeft()) {
                 if (markusjx.debug) console.debug("Placing left");
 
