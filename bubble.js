@@ -59,7 +59,7 @@ const markusjx = {
                         if (this.currentElementBinding !== null) {
                             this.updatePosition();
                         }
-                    }, 500);
+                    }, 200);
                 }
             });
         }
@@ -142,6 +142,21 @@ const markusjx = {
         }
 
         /**
+         * Close the bubble
+         */
+        close() {
+            let res = { value: null, event: e };
+
+            this.root.style.opacity = "0";
+            this.root.style.display = "none";
+            this.open = false;
+            this.currentElementBinding = null;
+            this.closeListeners.forEach(fn => {
+                fn(res);
+            });
+        }
+
+        /**
          * Show the Bubble
          * 
          * @param {HTMLElement} element the element to place the bubble next to
@@ -221,7 +236,7 @@ const markusjx = {
 
                 this.pointerElement.classList.add("bottom");
                 this.pointerElement.style.top = root.offsetHeight + "px";
-                this.pointerElement.style.left = elem_left - this.pointerElement.offsetWidth / 2 - offsetLeft + "px";
+                this.pointerElement.style.left = Math.max(elem_left - getOffsetLeft(root), 0) + element.offsetWidth / 2 - this.pointerElement.offsetWidth / 2 - offsetLeft + "px";
             } else if (canPlaceBelow()) {
                 if (markusjx.debug) console.debug("Placing below");
 
@@ -247,7 +262,7 @@ const markusjx = {
                 }
 
                 this.pointerElement.style.top = "0";
-                this.pointerElement.style.left = elem_left - this.pointerElement.offsetWidth / 2 - offsetLeft + "px";
+                this.pointerElement.style.left = Math.max(elem_left - getOffsetLeft(root), 0) + element.offsetWidth / 2 - this.pointerElement.offsetWidth / 2 - offsetLeft + "px";
             } else if (canPlaceLeft()) {
                 if (markusjx.debug) console.debug("Placing left");
 
@@ -282,6 +297,7 @@ const markusjx = {
                 throw new Error("Could not find a suitable location to put element");
             }
 
+            this.root.style.display = "block";
             root.style.opacity = "1";
             this.currentElementBinding = element;
             this.open = true;
