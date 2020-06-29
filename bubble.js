@@ -210,9 +210,7 @@ const markusjx = {
 
             if (Number(window.getComputedStyle(root).maxWidth.replace("px", "")) < vw) {
                 root.style.width = root.style.maxWidth;
-                console.log("bc");
             } else if (Number(window.getComputedStyle(root).minWidth.replace("px", "")) < vw) {
-                console.log("ab");
                 root.style.width = "100%";
             } else {
                 root.style.opacity = "0";
