@@ -58,7 +58,7 @@
 }
 
 .bubble-actions {
-    padding: 10px 15px 15px 15px;
+    padding: 0 15px 15px 15px;
     min-height: 24px;
     height: max-content;
 }
