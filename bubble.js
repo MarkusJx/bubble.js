@@ -27,6 +27,12 @@ const markusjx = {
                 this.buttonElements[i].addEventListener('click', (e) => {
                     let res = { value: this.buttonElements[i].innerText, event: e };
 
+                    if (this.setDisplayNoneTimeout !== null) clearTimeout(this.setDisplayNoneTimeout);
+                    this.setDisplayNoneTimeout = setTimeout(() => {
+                        this.root.style.display = "none";
+                        this.setDisplayNoneTimeout = null;
+                    }, 200);
+
                     this.root.style.opacity = "0";
                     this.open = false;
                     this.currentElementBinding = null;
@@ -47,8 +53,10 @@ const markusjx = {
 
             this.currentElementBinding = null;
             this.reopenTimeout = null;
-            window.addEventListener('resize', () => {
-                if (markusjx.debug) console.debug("resize");
+            this.setDisplayNoneTimeout = null;
+
+            function resizeOrScroll() {
+                if (markusjx.debug) console.debug("movement detected");
                 this.root.style.opacity = "0";
                 if (this.open) {
                     if (this.reopenTimeout !== null) {
@@ -61,7 +69,10 @@ const markusjx = {
                         }
                     }, 200);
                 }
-            });
+            }
+
+            window.addEventListener('resize', resizeOrScroll);
+            window.addEventListener('scroll', resizeOrScroll);
         }
 
         /**
@@ -147,6 +158,12 @@ const markusjx = {
         close() {
             let res = { value: null, event: e };
 
+            if (this.setDisplayNoneTimeout !== null) clearTimeout(this.setDisplayNoneTimeout);
+            this.setDisplayNoneTimeout = setTimeout(() => {
+                this.root.style.display = "none";
+                this.setDisplayNoneTimeout = null;
+            }, 200);
+
             this.root.style.opacity = "0";
             this.root.style.display = "none";
             this.open = false;
@@ -163,6 +180,11 @@ const markusjx = {
          * @param {number} offsetLeft a left offset, may be negative
          */
         show(element, offsetLeft = 0) {
+            if (this.setDisplayNoneTimeout !== null) {
+                clearTimeout(this.setDisplayNoneTimeout);
+                this.setDisplayNoneTimeout = null;
+            }
+
             let root = this.root;
 
             // Get real offset left and top. Source: https://stackoverflow.com/a/5598797
@@ -270,7 +292,7 @@ const markusjx = {
                 throw new Error("Could not find a suitable location to put element");
             }
 
-            this.root.style.display = "block";
+            root.style.display = "block";
             root.style.opacity = "1";
             this.currentElementBinding = element;
             this.open = true;
