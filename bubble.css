@@ -10,6 +10,13 @@
     opacity: 0;
     margin: 0 15px;
     display: none;
+    width: 100%;
+}
+
+@media only screen and (max-width: 540px) {
+    .bubble {
+        margin: 0;
+    }
 }
 
 .bubble-heading {

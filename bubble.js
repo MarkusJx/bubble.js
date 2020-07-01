@@ -231,13 +231,8 @@ const markusjx = {
                 return (vw - (elem_left + element.offsetWidth)) > root.offsetWidth;
             }
 
-            if (Number(window.getComputedStyle(root).maxWidth.replace("px", "")) < vw) {
-                root.style.width = window.getComputedStyle(root).maxWidth;
-                if (markusjx.debug) console.debug("Setting width to maxWidth");
-            } else if (Number(window.getComputedStyle(root).minWidth.replace("px", "")) < vw) {
-                root.style.width = "100%";
-                if (markusjx.debug) console.debug("Setting width to 100%");
-            } else {
+            if (!((Number(window.getComputedStyle(root).maxWidth.replace("px", "")) < vw) || (Number(window.getComputedStyle(root).minWidth.replace("px", "")) < vw))) {
+                root.style.display = "none";
                 root.style.opacity = "0";
                 console.error("Cannot display bubble: Not enough space");
                 return;
@@ -248,7 +243,7 @@ const markusjx = {
                 if (markusjx.debug) console.debug("Placing above");
 
                 root.style.top = elem_top - root.offsetHeight - 20 + "px";
-                root.style.left = (elem_left + offsetLeft) - Math.max((root.offsetWidth + elem_left + offsetLeft + 15) - vw, 0) + "px";
+                root.style.left = Math.max((elem_left + offsetLeft) - Math.max((root.offsetWidth + elem_left + offsetLeft + 30) - vw, 0), 0) + "px";
 
                 this.pointerElement.classList.add("bottom");
                 this.pointerElement.style.top = root.offsetHeight + "px";
@@ -257,7 +252,8 @@ const markusjx = {
                 if (markusjx.debug) console.debug("Placing below");
 
                 root.style.top = elem_top + element.offsetHeight + 20 + "px";
-                root.style.left = (elem_left + offsetLeft) - Math.max((root.offsetWidth + elem_left + offsetLeft + 15) - vw, 0) + "px";
+                root.style.left = Math.max((elem_left + offsetLeft) - Math.max((root.offsetWidth + elem_left + offsetLeft + 30) - vw, 0), 0) + "px";
+                // console.log((elem_left + offsetLeft), Math.max((root.offsetWidth + elem_left + offsetLeft) - vw, 0), root.offsetWidth, elem_left, vw)
 
                 this.pointerElement.style.top = "0";
                 this.pointerElement.style.left = Math.abs(elem_left - getOffsetLeft(root)) + element.offsetWidth / 2 - this.pointerElement.offsetWidth / 2 - offsetLeft + "px";
