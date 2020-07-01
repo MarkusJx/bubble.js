@@ -186,6 +186,7 @@ const markusjx = {
             }
 
             let root = this.root;
+            root.style.display = "block";
 
             // Get real offset left and top. Source: https://stackoverflow.com/a/5598797
             function getOffsetLeft(elem) {
@@ -231,9 +232,11 @@ const markusjx = {
             }
 
             if (Number(window.getComputedStyle(root).maxWidth.replace("px", "")) < vw) {
-                root.style.width = root.style.maxWidth;
+                root.style.width = window.getComputedStyle(root).maxWidth;
+                if (markusjx.debug) console.debug("Setting width to maxWidth");
             } else if (Number(window.getComputedStyle(root).minWidth.replace("px", "")) < vw) {
                 root.style.width = "100%";
+                if (markusjx.debug) console.debug("Setting width to 100%");
             } else {
                 root.style.opacity = "0";
                 console.error("Cannot display bubble: Not enough space");
@@ -292,7 +295,6 @@ const markusjx = {
                 throw new Error("Could not find a suitable location to put element");
             }
 
-            root.style.display = "block";
             root.style.opacity = "1";
             this.currentElementBinding = element;
             this.open = true;

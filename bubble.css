@@ -9,6 +9,7 @@
     transition: opacity 0.2s ease-in-out;
     opacity: 0;
     margin: 0 15px;
+    display: none;
 }
 
 .bubble-heading {
