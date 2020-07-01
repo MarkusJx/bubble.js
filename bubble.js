@@ -55,7 +55,7 @@ const markusjx = {
             this.reopenTimeout = null;
             this.setDisplayNoneTimeout = null;
 
-            function resizeOrScroll() {
+            const resizeOrScroll = () => {
                 if (markusjx.debug) console.debug("movement detected");
                 this.root.style.opacity = "0";
                 if (this.open) {
@@ -69,7 +69,7 @@ const markusjx = {
                         }
                     }, 200);
                 }
-            }
+            };
 
             window.addEventListener('resize', resizeOrScroll);
             window.addEventListener('scroll', resizeOrScroll);
